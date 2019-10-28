@@ -1,0 +1,133 @@
+> use first_db
+switched to db first_db
+> db.createCollection("student")
+{ "ok" : 1 }
+> db.my_db_first.insert({name: "Ben",home_state:"Washington",lucky_number:12,birthday:{month:9,day:16,year:1991}})
+WriteResult({ "nInserted" : 1 })
+> db.my_db_first.insert({name: "Joe",home_state:"Oregon",lucky_number:13,birthday:{month:9,day:17,year:1991}})
+WriteResult({ "nInserted" : 1 })
+> db.my_db_first.insert({name: "Cow",home_state:"Texas",lucky_number:16,birthday:{month:9,day:20,year:1990}})
+WriteResult({ "nInserted" : 1 })
+> db.my_db_first.insert({name: "Melissa",home_state:"Nevada",lucky_number:15,birthday:{month:9,day:19,year:1991}})
+WriteResult({ "nInserted" : 1 })
+> db.my_db_first.insert({name:"Tayo",home_state:"Chicago", lucky_number:19, birthday: {month:07,day:19,year:2000}})
+WriteResult({ "nInserted" : 1 })
+> db.my_db_first.find().pretty()
+{
+        "_id" : ObjectId("5d9950478de49a2143ba7552"),
+        "name" : "Ben",
+        "home_state" : "Washington",
+        "lucky_number" : 12,
+        "birthday" : {
+                "month" : 9,
+                "day" : 16,
+                "year" : 1991
+        }
+}
+{
+        "_id" : ObjectId("5d9950b28de49a2143ba7553"),
+        "name" : "Joe",
+        "home_state" : "Oregon",
+        "lucky_number" : 13,
+        "birthday" : {
+                "month" : 9,
+                "day" : 17,
+                "year" : 1991
+        }
+}
+{
+        "_id" : ObjectId("5d9950ba8de49a2143ba7554"),
+        "name" : "Cow",
+        "home_state" : "Texas",
+        "lucky_number" : 16,
+        "birthday" : {
+                "month" : 9,
+                "day" : 20,
+                "year" : 1990
+        }
+}
+{
+        "_id" : ObjectId("5d9950c08de49a2143ba7555"),
+        "name" : "Melissa",
+        "home_state" : "Nevada",
+        "lucky_number" : 15,
+        "birthday" : {
+                "month" : 9,
+                "day" : 19,
+                "year" : 1991
+        }
+}
+{
+        "_id" : ObjectId("5d9950c88de49a2143ba7556"),
+        "name" : "Tayo",
+        "home_state" : "Chicago",
+        "lucky_number" : 19,
+        "birthday" : {
+                "month" : 7,
+                "day" : 19,
+                "year" : 2000
+        }
+}
+> db.my_db_first.find({$or:[{home_state:"Washington"},{home_state:"Oregon"}]}).pretty()
+{
+        "_id" : ObjectId("5d9950478de49a2143ba7552"),
+        "name" : "Ben",
+        "home_state" : "Washington",
+        "lucky_number" : 12,
+        "birthday" : {
+                "month" : 9,
+                "day" : 16,
+                "year" : 1991
+        }
+}
+{
+        "_id" : ObjectId("5d9950b28de49a2143ba7553"),
+        "name" : "Joe",
+        "home_state" : "Oregon",
+        "lucky_number" : 13,
+        "birthday" : {
+                "month" : 9,
+                "day" : 17,
+                "year" : 1991
+        }
+}
+> db.my_db_first.find({lucky_number:{$gt:3}})
+{ "_id" : ObjectId("5d9950478de49a2143ba7552"), "name" : "Ben", "home_state" : "Washington", "lucky_number" : 12, "birthday" : { "month" : 9, "day" : 16, "year" : 1991 } }
+{ "_id" : ObjectId("5d9950b28de49a2143ba7553"), "name" : "Joe", "home_state" : "Oregon", "lucky_number" : 13, "birthday" : { "month" : 9, "day" : 17, "year" : 1991 } }
+{ "_id" : ObjectId("5d9950ba8de49a2143ba7554"), "name" : "Cow", "home_state" : "Texas", "lucky_number" : 16, "birthday" : { "month" : 9, "day" : 20, "year" : 1990 } }
+{ "_id" : ObjectId("5d9950c08de49a2143ba7555"), "name" : "Melissa", "home_state" : "Nevada", "lucky_number" : 15, "birthday" : { "month" : 9, "day" : 19, "year" : 1991 } }
+{ "_id" : ObjectId("5d9950c88de49a2143ba7556"), "name" : "Tayo", "home_state" : "Chicago", "lucky_number" : 19, "birthday" : { "month" : 7, "day" : 19, "year" : 2000 } }
+> db.my_db_first.find({lucky_number:{$lte:10}})
+> db.my_db_first.find({$and:[{lucky_number:{$gte:1}},{lucky_number:{$lte:9}}]})
+> db.my_db_first.update({},{$set:{interests:['coding', 'brunch', 'MongoDB']}},{multi:true})
+WriteResult({ "nMatched" : 5, "nUpserted" : 0, "nModified" : 5 })
+> db.my_db_first.update({name:"Ben"},{$push:{interests:'weightlifting'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.my_db_first.update({name:"Joe"},{$push:{interests:'cooking'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.my_db_first.update({name:"Tayo"},{$push:{interests:'texting'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.my_db_first.update({name:"Melissa"},{$push:{interests:'flying'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.my_db_first.update({name:"Cow"},{$push:{interests:'jumping'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.my_db_first.update({name:"Cow"},{$push:{interests:'taxes'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.my_db_first.update({name:"Cow"},{$pull:{interests:'jumping'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.my_db_first.remove({$or:[{home_state:"Washington"},{home_state:"Oregon"}]},true)
+WriteResult({ "nRemoved" : 1 })
+> db.my_db_first.remove({name:"Tayo"})
+WriteResult({ "nRemoved" : 1 })
+> db.my_db_first.remove({lucky_number:{$gt:5}},true)
+WriteResult({ "nRemoved" : 1 })
+> db.my_db_first.insert({},{$set:{number_of_belts:0}},{multi:true})
+WriteResult({ "nInserted" : 1 })
+> db.my_db_first.update({home_state:"Washington"},{$inc:{number_of_belts:1}},{multi:true})
+WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+> db.my_db_first.update({},{$rename:{number_of_belts:"belts_earned"}},{multi:true})
+WriteResult({ "nMatched" : 3, "nUpserted" : 0, "nModified" : 0 })
+> db.my_db_first.update({},{$unset:{lucky_number:""}},{multi:true})
+WriteResult({ "nMatched" : 3, "nUpserted" : 0, "nModified" : 2 })
+> db.my_db_first.update({},{$currentDate:{"updated_on":{$type:"date"}}},{multi:true})
+WriteResult({ "nMatched" : 3, "nUpserted" : 0, "nModified" : 3 })
